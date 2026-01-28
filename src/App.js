@@ -1,19 +1,16 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-
-// These paths point to your CSS files in the src/pages folder
+import axios from 'axios';
 import './pages/App.css';
-import './pages/index.css';
-
-// Fixed paths: Removed the extra "/pages" from the middle
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CustomerDashboard from './pages/CustomerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import { Toaster } from 'sonner';
 
-// Environment variable for your BlueCust backend
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://bluecast-api-vw9o.onrender.com';
+// Correct Backend Link from your .env
+const BACKEND_URL = "https://bluecast-api-vw9o.onrender.com";
 export const API = `${BACKEND_URL}/api`;
 
 export const AuthContext = createContext(null);
@@ -31,33 +28,26 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
-    }
+    if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  const login = (newToken, newUser) => {
-    setToken(newToken);
+  const login = (token, newUser) => {
     setUser(newUser);
-    localStorage.setItem('token', newToken);
+    localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(newUser));
   };
 
   const logout = () => {
-    setToken(null);
     setUser(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       <div className="App">
         <BrowserRouter>
           <Routes>
@@ -74,6 +64,7 @@ function App() {
             />
           </Routes>
         </BrowserRouter>
+        <Toaster position="top-right" />
       </div>
     </AuthContext.Provider>
   );
