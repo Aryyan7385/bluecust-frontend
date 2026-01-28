@@ -1,15 +1,16 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-// These paths point into your pages folder from the new src/App.js location
+// These paths point to your CSS files in the src/pages folder
 import './pages/App.css';
 import './pages/index.css';
 
-import LandingPage from './pages/pages/LandingPage';
-import LoginPage from './pages/pages/LoginPage';
-import RegisterPage from './pages/pages/RegisterPage';
-import CustomerDashboard from './pages/pages/CustomerDashboard';
-import AdminDashboard from './pages/pages/AdminDashboard';
+// Fixed paths: Removed the extra "/pages" from the middle
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import CustomerDashboard from './pages/CustomerDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 
 // Environment variable for your BlueCust backend
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://bluecast-api-vw9o.onrender.com';
