@@ -1,15 +1,20 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import '@/App.css';
-import LandingPage from '@/pages/LandingPage';
-import LoginPage from '@/pages/LoginPage';
-import RegisterPage from '@/pages/RegisterPage';
-import CustomerDashboard from '@/pages/CustomerDashboard';
-import AdminDashboard from '@/pages/AdminDashboard';
-import { Toaster } from '@/components/ui/sonner';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+// Corrected path to styles now that they are in the pages folder
+import './pages/App.css';
+import './pages/index.css';
+
+// Importing pages using relative paths for reliability
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import CustomerDashboard from './pages/CustomerDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+
+// Setting up the API URL from your Render backend
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://bluecast-api-vw9o.onrender.com';
 export const API = `${BACKEND_URL}/api`;
 
 export const AuthContext = createContext(null);
@@ -83,7 +88,7 @@ function App() {
             />
           </Routes>
         </BrowserRouter>
-        <Toaster position="top-right" />
+        {/* Toaster removed temporarily to fix build error; add back once components folder is uploaded */}
       </div>
     </AuthContext.Provider>
   );
