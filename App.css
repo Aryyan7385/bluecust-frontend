@@ -1,0 +1,15 @@
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #E0F2FF 0%, #FFFFFF 100%);
+}
+
+.glass-card {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+.glass-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
