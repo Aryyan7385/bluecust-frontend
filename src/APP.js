@@ -2,18 +2,17 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
-// Corrected path to styles now that they are in the pages folder
+// Critical: Pointing to your specific folder structure on GitHub
 import './pages/App.css';
 import './pages/index.css';
 
-// Importing pages using relative paths for reliability
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CustomerDashboard from './pages/CustomerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 
-// Setting up the API URL from your Render backend
+// Environment variable with fallback to your live Render backend
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://bluecast-api-vw9o.onrender.com';
 export const API = `${BACKEND_URL}/api`;
 
@@ -21,18 +20,13 @@ export const AuthContext = createContext(null);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
-  }
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
   return context;
 };
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
+  return user ? children : <Navigate to="/login" replace />;
 };
 
 function App() {
@@ -70,25 +64,10 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <CustomerDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/dashboard" element={<ProtectedRoute><CustomerDashboard /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           </Routes>
         </BrowserRouter>
-        {/* Toaster removed temporarily to fix build error; add back once components folder is uploaded */}
       </div>
     </AuthContext.Provider>
   );
